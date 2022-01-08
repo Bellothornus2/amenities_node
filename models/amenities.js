@@ -17,6 +17,10 @@ var AmenitiesSchema = new Schema(
     }
 )
 
+AmenitiesSchema.pre(["find","findOne"],function(){
+    this.select('_id NamePack PricePack ContentPack HasCupon HasParking');
+})
+
 module.exports = mongoose.model('Amenities',AmenitiesSchema)
 /*
 var Prueba = mongoose.model("Prueba",AmenitiesSchema);

@@ -8,7 +8,7 @@
     "lint": "eslint ./",
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
-    "serverstart": "set DEBUG=amenities_node:* & npm run devstart"
+    "serverstart": "set DEBUG=amenities_node:* & set USER_ID=m001-student& set USER_KEY=12345& npm run devstart"
   },
   "author": "",
   "license": "ISC",
