@@ -7,16 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ./",
     "start": "node ./bin/www",
-    "devstart":"nodemon ./bin/www",
+    "devstart": "nodemon ./bin/www",
     "serverstart": "set DEBUG=amenities_node:* & npm run devstart"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "express": "^4.17.2",
     "http-errors": "~1.6.3",
+    "mongoose": "^6.1.5",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11"
   },
