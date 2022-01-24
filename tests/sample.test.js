@@ -24,6 +24,9 @@ describe('Changing Amenities', () =>{
         })
         expect(res.statusCode).toEqual(302);
         expect(res.headers.location).toContain('/amenity/getAmenityById/61daf57354e4911c13494ce0')
+        const res2 = await request(app)
+        .get('/amenity/getAmenityById/61daf57354e4911c13494ce0');
+        expect(res2.body.PricePack).toBe(25);
     })
 })
 
