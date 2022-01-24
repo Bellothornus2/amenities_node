@@ -12,6 +12,9 @@ describe('Creating Amenities', () => {
         expect(res.body.ContentPack[0].description).toBe("Soy la descripcion");
         expect(res.body.HasCupon).toBe(true);
         expect(res.body.HasParking).toBe(false);
+        idObjeto = res.body._id;
+        const res2 = await request(app)
+        .delete('/amenity/getAmenityByIdAndDelete/'+idObjeto);
     })
 })
 
