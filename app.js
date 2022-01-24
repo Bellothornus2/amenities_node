@@ -14,6 +14,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var indexRouter = require('./routes/index')
 var amenityRouter = require('./routes/amenities')
 
+
 app.use('/',indexRouter);
 app.use('/amenity',amenityRouter);
 

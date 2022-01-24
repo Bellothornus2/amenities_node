@@ -1,5 +1,6 @@
 const Amenities = require("../models/amenities")
 const importaAmenity = require("../domain/amenities")
+const mongoLib = require('mongodb');
 
 var AmenityAPI = (function singleController(){
     var amenity = importaAmenity.singletonAmenity.getAmenity();
@@ -27,7 +28,7 @@ var AmenityAPI = (function singleController(){
         res.status(200).type('json').json(amenityInstanceModel);
     }
 
-    const getAmenity = ( (req,res,next) => {
+    const getAmenityByName = ( (req,res,next) => {
         Amenities.findOne({"NamePack":`${req.params.name}`})
         .exec(function(err, nameAmenity){
             if (err) {return next(err);}
@@ -35,9 +36,19 @@ var AmenityAPI = (function singleController(){
         })
     })
 
+    const getAmenityById = ((req,res,next) => {
+        var mongo_code = new mongoLib.ObjectId(req.params.code)
+        //res.status(200).type('json').json(mongo_code)
+        Amenities.findOne({_id:mongo_code})
+        .exec(function(err,codeAmenity){
+            if (err) {return next(err);}
+            res.status(200).type('json').json(codeAmenity);
+        })
+    })
     return{
         factory,
-        getAmenity
+        getAmenityByName,
+        getAmenityById
     };
 })();
 

@@ -10,6 +10,6 @@ router.use(function (req,res,next){
 })
 
 router.get('/factory/:name/:price/:contentName/:contentDescription/:cupon/:parking',AmenityController.amenityAPI.factory);
-router.get('/getAmenity/:name',AmenityController.amenityAPI.getAmenity);
-
+router.get('/getAmenityByName/:name',AmenityController.amenityAPI.getAmenityByName);
+router.get('/getAmenityById/:code',AmenityController.amenityAPI.getAmenityById);
 module.exports = router;
