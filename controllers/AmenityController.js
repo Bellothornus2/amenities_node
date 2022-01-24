@@ -45,6 +45,15 @@ var AmenityAPI = (function singleController(){
             res.status(200).type('json').json(codeAmenity);
         })
     })
+
+    const getAmenityAll = ((req,res,next) => {
+        Amenities.find()
+        .exec(function (err, amenities) {
+            if (err) { return next(err); }
+            res.status(200).type('json').json(amenities);
+        })
+    })
+
     const getAmenityByIdAndUpdate = ((req,res,next) => {
         var mongo_code = new mongoLib.ObjectId(req.params.code);
         var priceAmenity = req.body.price;
@@ -70,12 +79,60 @@ var AmenityAPI = (function singleController(){
                 res.send("Id: "+ mongo_code +" Succesfully Removed!")
             })
     })
+    const BlackFriday = ((req,res,next) => {
+        Amenities.find()
+        .exec(function (err, amenities) {
+            if (err) { return next(err); }
+            amenities.forEach(reg => {
+                Amenities.findByIdAndUpdate({_id:reg._id},
+                    {"$set":{
+                        PricePack:reg.PricePack/2,
+                        NamePack:reg.NamePack + ' OFERTA!'
+                    }
+                },
+                function (err,codeAmenity) {
+                    if (err) {return next(err);}
+                });
+                reg.PricePack = reg.PricePack/2;
+                reg.NamePack = reg.NamePack + ' OFERTA!';
+            });
+            res.status(200).type('json').json(amenities);
+        //Amenities.updateMany({},{"$set":{"PricePack":{"$divide":["$PricePack",2]}},"NamePack":"$NamePack"+" OFERTA!"})
+        })
+    }) 
+
+    const BlackFridayOff = ((req,res,next) => {
+        Amenities.find()
+        .exec(function (err,amenities) {
+            if (err) {return next(err);}
+            amenities.forEach(reg =>{
+                var nameLength = reg.NamePack.length
+                Amenities.findByIdAndUpdate({
+                    _id:reg._id
+                },{
+                    "$set":{
+                        PricePack:reg.PricePack*2,
+                        NamePack:reg.NamePack.slice(0,nameLength-8)
+                    }
+                },
+                function (err,codeAmenity) {
+                    if (err) {return next(err);}
+                });
+                reg.PricePack = reg.PricePack*2;
+                reg.NamePack = reg.NamePack.slice(0,nameLength-8);
+            })
+            res.status(200).type('json').json(amenities);
+        })
+    })
     return{
         factory,
         getAmenityByName,
         getAmenityById,
+        getAmenityAll,
         getAmenityByIdAndUpdate,
-        getAmenityByIdAndDelete
+        getAmenityByIdAndDelete,
+        BlackFriday,
+        BlackFridayOff
     };
 })();
 
