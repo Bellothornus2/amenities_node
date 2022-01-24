@@ -2,11 +2,18 @@ const request = require('supertest');
 const { response } = require('../app');
 const app = require('../app');
 
-describe('Sample Test',() =>{
-    it('should test that true === true', () =>{
-        expect(true).toBe(true);
+describe('Creating Amenities', () => {
+    it("should create the Amenity", async() =>{
+        const res = await request(app)
+        .get('/amenity/factory/paquete de para eliminar/20/Hola/Soy la descripcion/true/false');
+        expect(res.body.NamePack).toBe("paquete de para eliminar");
+        expect(res.body.PricePack).toBe(20);
+        expect(res.body.ContentPack[0].name).toBe("Hola");
+        expect(res.body.ContentPack[0].description).toBe("Soy la descripcion");
+        expect(res.body.HasCupon).toBe(true);
+        expect(res.body.HasParking).toBe(false);
     })
-});
+})
 
 describe('Changing Amenities', () =>{
     it('should change the price', async() => {
