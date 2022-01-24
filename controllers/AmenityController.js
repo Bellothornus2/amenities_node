@@ -45,10 +45,37 @@ var AmenityAPI = (function singleController(){
             res.status(200).type('json').json(codeAmenity);
         })
     })
+    const getAmenityByIdAndUpdate = ((req,res,next) => {
+        var mongo_code = new mongoLib.ObjectId(req.params.code);
+        var priceAmenity = req.body.price;
+        var nameAmenity = req.body.name;
+        var cuponAmenity = req.body.cupon;
+        var parkingAmenity = req.body.parking;
+        //si un campo no se encuentra no lo actualiza
+        Amenities.findByIdAndUpdate({_id:mongo_code},
+            {"$set":{PricePack:priceAmenity,
+            NamePack:nameAmenity,
+            HasCupon:cuponAmenity,
+            HasParking:parkingAmenity}},
+            function (err,codeAmenity) {
+                if (err) {return next(err);}
+                res.redirect('/amenity/getAmenityById/'+req.params.code);
+            });
+    })
+    const getAmenityByIdAndDelete = ((req,res,next) => {
+        var mongo_code = new mongoLib.ObjectId(req.params.code);
+        Amenities.findByIdAndDelete({_id:mongo_code},
+            function (err,codeAmenity){
+                if (err) {return next(err);}
+                res.send("Id: "+ mongo_code +" Succesfully Removed!")
+            })
+    })
     return{
         factory,
         getAmenityByName,
-        getAmenityById
+        getAmenityById,
+        getAmenityByIdAndUpdate,
+        getAmenityByIdAndDelete
     };
 })();
 
